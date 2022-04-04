@@ -77,7 +77,7 @@ def saveBranchTables(args):
                 except:
                     continue
             
-            withinRound = 0
+        withinRound = 0
 
         nextRoundBtn = driver.find_element(By.XPATH, f'//*[@id="gumgoList"]/div[2]/ul/li[{pageNum+3}]/a')
         driver.execute_script("arguments[0].click();", nextRoundBtn)
