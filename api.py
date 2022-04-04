@@ -18,9 +18,31 @@ def saveBranchTables(args):
 
     firstRound = True
     roundNum = 0
+    withinRound = 0
+
+    if args.start_page:
+        for i in range((args.start_page-1)//10):
+            nextRoundBtn = driver.find_element(By.CLASS_NAME, 'next')
+            driver.execute_script("arguments[0].click();", nextRoundBtn)
+            sleep(2)
+            firstRound = False
+            roundNum += 1
+        
+        withinRound = ((args.start_page -  1) % 10)
+        if withinRound > 0:
+            if not firstRound:
+                pageBtn = driver.find_element(By.XPATH, f'//*[@id="gumgoList"]/div[2]/ul/li[{withinRound+3}]/a')
+                driver.execute_script("arguments[0].click();", pageBtn)
+                sleep(2)
+            else:
+                pageBtn = driver.find_element(By.XPATH, f'//*[@id="gumgoList"]/div[2]/ul/li[{withinRound+2}]/a')
+                driver.execute_script("arguments[0].click();", pageBtn)
+                sleep(2)
+            # withinRound += 1
+
     while roundNum <= 12:
-        print(roundNum)
-        for pageNum in range(10):
+        # print(roundNum)
+        for pageNum in range(withinRound, 10):
             if firstRound:
                 if pageNum == 9:
                     firstRound = False
@@ -54,6 +76,8 @@ def saveBranchTables(args):
                     sleep(2)
                 except:
                     continue
+            
+            withinRound = 0
 
         nextRoundBtn = driver.find_element(By.XPATH, f'//*[@id="gumgoList"]/div[2]/ul/li[{pageNum+3}]/a')
         driver.execute_script("arguments[0].click();", nextRoundBtn)
